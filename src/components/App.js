@@ -26,9 +26,20 @@ import '../styles/main.scss';
 
 
 function App() {
-  let [numberOfErrors, setNumberOfErrors] = useState(0);
+  const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const [lastLetter, setLastLetter] = useState('');
+  //Variable que recoje los caracteres válidos
+  let regexInputLetter = new RegExp ("^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]");
+  //Función que incrementa los errores con el botón
   const handleClick = (ev) => {
+    ev.prevent.Default();
     setNumberOfErrors(numberOfErrors += 1);
+  }
+  //Función que recoge los caracteres válidos que escribe la usuaria
+  const handleInputLetter = (ev) => {
+    if(ev.target.value === '' || regexInputLetter.test(ev.target.value)) {
+      setLastLetter (ev.target.value);
+    }
   }
   return (
     <div className="App">
@@ -72,6 +83,8 @@ function App() {
               type="text"
               name="last-letter"
               id="last-letter"
+              value={lastLetter}
+              onChange={handleInputLetter}
             />
           </form>
         </section>

@@ -1,3 +1,4 @@
+/* eslint-disable no-const-assign */
 import {useState} from 'react';
 import '../styles/main.scss';
 
@@ -28,6 +29,9 @@ import '../styles/main.scss';
 function App() {
   const [numberOfErrors, setNumberOfErrors] = useState(0);
   const [lastLetter, setLastLetter] = useState('');
+  const [word, setWord] = useState('katakroker');
+  const [userLetters, setUserLetters] = useState([]);
+
   //Variable que recoje los caracteres válidos
   let regexInputLetter = new RegExp ("^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]");
   //Función que incrementa los errores con el botón
@@ -39,8 +43,23 @@ function App() {
   const handleInputLetter = (ev) => {
     if(ev.target.value === '' || regexInputLetter.test(ev.target.value)) {
       setLastLetter (ev.target.value);
+      //REVISAR, NO NOS GUARDA LAS LETRAS
+      setUserLetters([...userLetters], ev.target.value);
     }
   }
+
+  //Pintar una raya por cada letra de la palabra de la solución
+  const renderSolutionLetters = () => {
+    const wordLetters = word.split('');
+    return wordLetters.map((eachLetter, index) => {
+      return <li key={index} className="letter"></li>
+  });
+  };
+  // const renderAdalabers = () => {
+  //   return adalabers.map((adalaber) => {
+  //     return <li>{adalaber}</li>;
+  //   });
+  // };
   return (
     <div className="App">
       <div className="page">
@@ -52,7 +71,8 @@ function App() {
           <div className="solution">
             <h2 className="title">Solución:</h2>
             <ul className="letters">
-              <li className="letter">k</li>
+            {renderSolutionLetters()}
+              {/* <li className="letter">k</li>
               <li className="letter">a</li>
               <li className="letter"></li>
               <li className="letter">a</li>
@@ -61,7 +81,7 @@ function App() {
               <li className="letter"></li>
               <li className="letter">k</li>
               <li className="letter">e</li>
-              <li className="letter">r</li>
+              <li className="letter">r</li>  */}
             </ul>
           </div>
           <div className="error">
